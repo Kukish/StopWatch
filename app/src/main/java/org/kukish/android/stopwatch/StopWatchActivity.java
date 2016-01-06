@@ -1,41 +1,55 @@
 package org.kukish.android.stopwatch;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.TextView;
 
-public class StopWatchActivity extends AppCompatActivity {
+public class StopWatchActivity extends Activity {
+    //number of seconds on the stopwatch
+    private int seconds = 0;
+    //indicates stopwatch  running or not
+    private boolean running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stopwatch);
+        runTimer();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_stop_watch, menu);
-        return true;
+    public void onClickStart(View view) {
+        running = true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void onClickStop(View view) {
+        running = false;
+    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+    public void onClickReset(View view) {
+        running = false;
+        seconds = 0;
+    }
 
-        return super.onOptionsItemSelected(item);
+    private void runTimer() {
+        final TextView timeView = (TextView) findViewById(R.id.time_view);
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int hours = seconds / 3600;
+                int minutes = (seconds % 3600) / 60;
+                int secs = seconds % 60;
+                String time = String.format("%d:%02d:%02d", hours, minutes, secs);
+                timeView.setText(time);
+                if (running) {
+                    seconds++;
+                }
+                handler.postDelayed(this, 1000);
+            }
+        });
+
     }
 }
