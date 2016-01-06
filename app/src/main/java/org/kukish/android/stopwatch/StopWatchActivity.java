@@ -3,14 +3,13 @@ package org.kukish.android.stopwatch;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.view.View;
 import android.widget.TextView;
 
 public class StopWatchActivity extends Activity {
-    //number of seconds on the stopwatch
-    private int seconds = 0;
-    //indicates stopwatch  running or not
+    //number of tenth of second on the stopwatch
+    private int ticks = 0;
+    //indicates stopwatch running or not
     private boolean running;
 
     @Override
@@ -30,7 +29,7 @@ public class StopWatchActivity extends Activity {
 
     public void onClickReset(View view) {
         running = false;
-        seconds = 0;
+        ticks = 0;
     }
 
     private void runTimer() {
@@ -39,15 +38,16 @@ public class StopWatchActivity extends Activity {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                int hours = seconds / 3600;
-                int minutes = (seconds % 3600) / 60;
-                int secs = seconds % 60;
-                String time = String.format("%d:%02d:%02d", hours, minutes, secs);
+                int hours = ticks / 36000;
+                int minutes = ((ticks / 10) % 3600) / 60;
+                int secs = (ticks / 10) % 60;
+                int tenthOfSec = ticks % 10;
+                String time = String.format("%d:%02d:%02d.%d", hours, minutes, secs, tenthOfSec);
                 timeView.setText(time);
                 if (running) {
-                    seconds++;
+                    ticks++;
                 }
-                handler.postDelayed(this, 1000);
+                handler.postDelayed(this, 100);
             }
         });
 
