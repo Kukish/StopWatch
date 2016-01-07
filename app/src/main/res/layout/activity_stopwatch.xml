@@ -7,8 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.kukish.android.stopwatch.StopWatchActivity"
-    tools:showIn="@layout/activity_stopwatch">
+    tools:context="org.kukish.android.stopwatch.StopWatchActivity">
 
     <TextView
         android:id="@+id/time_view"
@@ -17,34 +16,33 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
-        android:text=""
+        android:text="00:00:00.0"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="75sp" />
 
-    <Button
-        android:id="@+id/start_button"
-        style="@style/buttons"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/time_view"
+        android:layout_alignLeft="@+id/time_view"
         android:layout_below="@+id/time_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:onClick="onClickStart"
-        android:text="@string/start"/>
-
+        android:layout_marginTop="30dp">
     <Button
-        android:id="@+id/stop_button"
+        android:id="@+id/start_pause_button"
         style="@style/buttons"
-        android:layout_below="@+id/start_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:onClick="onClickStop"
-        android:text="@string/stop"/>
+        android:drawableRight="@drawable/start"
+        android:layout_marginTop="20dp"
+        android:onClick="onClickStartPause"
+        android:layout_weight="1"
+        android:text="@string/start"/>
 
     <Button
         android:id="@+id/reset_button"
         style="@style/buttons"
-        android:layout_below="@+id/stop_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:drawableRight="@drawable/reset"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
         android:onClick="onClickReset"
         android:text="@string/reset"/>
+    </LinearLayout>
 </RelativeLayout>
